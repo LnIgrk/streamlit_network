@@ -3,9 +3,11 @@ import streamlit.components.v1 as components
 import networkx as nx
 import matplotlib.pyplot as plt
 from pyvis.network import Network
+import numpy as np
 import got 
 #Network(notebook=True)
 st.title('Hello Pyvis')
+np.float_ = np.float64
 # make Network show itself with repr_html
 
 #def net_repr_html(self):
