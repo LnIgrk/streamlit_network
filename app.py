@@ -6,39 +6,25 @@ from pyvis.network import Network
 import numpy as np
 import got 
 #Network(notebook=True)
-st.title('Hello Pyvis')
+st.title("Now it's your turn to create a fair network!")
 np.float_ = np.float64
 # make Network show itself with repr_html
 
-#def net_repr_html(self):
-#  nodes, edges, height, width, options = self.get_network_data()
-#  html = self.template.render(height=height, width=width, nodes=nodes, edges=edges, options=options)
-#  return html
-
-#Network._repr_html_ = net_repr_html
-st.sidebar.title('Choose your favorite Graph')
-option=st.sidebar.selectbox('select graph',('Simple','Karate', 'GOT'))
-physics=st.sidebar.checkbox('add physics interactivity?')
-got.simple_func(physics)
-
-if option=='Simple':
-  HtmlFile = open("test.html", 'r', encoding='utf-8')
-  source_code = HtmlFile.read() 
-  components.html(source_code, height = 900,width=900)
+def net_repr_html(self):
+  nodes, edges, height, width, options = self.get_network_data()
+  html = self.template.render(height=height, width=width, nodes=nodes, edges=edges, options=options)
+  return html
 
 
-got.got_func(physics)
+Network._repr_html_ = net_repr_html
+st.sidebar.title('Options')
+st.sidebar.button("Start again", key=None, help="click to recreate the initial network ", on_click=None, args=None, kwargs=None)
 
-if option=='GOT':
-  HtmlFile = open("gameofthrones.html", 'r', encoding='utf-8')
-  source_code = HtmlFile.read() 
-  components.html(source_code, height = 1200,width=1000)
+got.got_func()
+HtmlFile = open("html_files/sample_test.html", 'r', encoding='utf-8')
+source_code = HtmlFile.read()
+components.html(source_code, height = 1200,width=1000)
 
-
-
-got.karate_func(physics)
-
-if option=='Karate':
-  HtmlFile = open("karate.html", 'r', encoding='utf-8')
-  source_code = HtmlFile.read() 
-  components.html(source_code, height = 1200,width=1000)
+# HtmlFile = open("test.html", 'r', encoding='utf-8')
+# source_code = HtmlFile.read()
+# components.html(source_code, height = 900,width=900)
