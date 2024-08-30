@@ -35,8 +35,19 @@ def got_func(physics=None):
       node["value"] = 2
   # if physics:
   #   got_net.show_buttons(filter_=['physics'])
-  got_net.show("html_files/sample_test.html")
 
-got_func()
-print("hello")
+  got_net.set_options("""
+  var options = {
+    "interaction": {
+      "multiselect": true,
+      "dragView": true,
+      "zoomView": true
+    }
+  }
+  """)
+  return got_net
+  # got_net.show("html_files/sample_test.html")
+
+# got_func()
+# print("hello")
 
