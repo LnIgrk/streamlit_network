@@ -8,3 +8,4 @@ numpy==1.*
 filelock
 streamlit_javascript
 ipython
+streamlit-autorefresh

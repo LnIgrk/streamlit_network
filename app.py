@@ -5,18 +5,16 @@ import pandas as pd
 import json
 import os
 from filelock import FileLock
-from streamlit_javascript import st_javascript
+# from streamlit_javascript import st_javascript
 
 st.title("Now it's your turn to create a fair network! 😎")
 
-
 def render_network(got_net, file_path):
-    # with FileLock(lock_path):
-    #     got_net.write_html(file_path)
+    with FileLock(lock_path):
+        got_net.write_html(file_path)
     with open(file_path, 'r', encoding='utf-8') as HtmlFile:
         source_code = HtmlFile.read()
-
-    return components.html(source_code, height=800, width=1000)
+    components.html(source_code, height=800, width=1000)
 
 # Function to create the network graph
 def got_func():
@@ -66,22 +64,20 @@ got_net = got_func()
 with FileLock(lock_path):
     got_net.write_html(file_path)
 
-render_network(got_net, file_path)
 
-# Read HTML content of the network graph
-with open(file_path, 'r', encoding='utf-8') as HtmlFile:
-    source_code = HtmlFile.read()
+@st.fragment
+def draw_visual():
+    render_network(got_net, file_path)
 
-# Display network graph in Streamlit with HTML and JavaScript
-visual = components.html(source_code, height=800, width=1000)
+draw_visual()
 
 from_ = st.sidebar.text_input("Add edge from", value="", )
 to_ = st.sidebar.text_input("Add edge to", value="", )
 
 if st.sidebar.button("Add an edge"):
     got_net.add_edge(int(from_), int(to_))
-    edges = got_net.get_edges()
     got_net.write_html(file_path)
+    draw_visual()
 
 from_remove = st.sidebar.text_input("Remove edge from", value="", )
 to_remove = st.sidebar.text_input("Remove edge to", value="", )
@@ -91,6 +87,7 @@ if st.sidebar.button("Remove an edge"):
     edges = [edge for edge in edges if not (edge['from'] == int(from_remove) and edge['to'] == int(to_remove))]
     got_net.edges = edges
     got_net.write_html(file_path)
-    render_network(got_net, file_path)
+    st.session_state["component_cleared"] = True
+    draw_visual()
 
 
